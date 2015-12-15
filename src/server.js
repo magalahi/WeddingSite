@@ -1,33 +1,25 @@
+var fs = require('fs')
+var path = require('path')
 var express = require('express')
 var app = express()
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
 
-app.get('/', function (req, res){
-  var obj = {
-    'name': 'Daniel',
-    'hair': 'Black',
-    'age': 27,
-    'male': true,
-    'hobbies': [
-      {
-        'name':'gaming',
-        years: 2
-      },
-      'long walks on the beach'
-    ]
-  }
-  res.send(obj)
+app.use(jsonParser)
+var itemsPath = path.resolve(__dirname, '../json/items.json')
+
+var items = JSON.parse(fs.readFileSync(itemsPath, 'utf-8'))
+
+app.get('/api/items', function(req, res){
+  res.status(200)
+  res.send(items)
 })
 
-app.get('/bye', function (req, res){
-  res.send('Bye World')
-})
-
-app.post('/bye', function (req, res){
-  res.send('foo')
-})
-
-app.get('/:id', function (req, res){
-  res.send(req.params.id)
+app.post('/api/items', function(req, res){
+  items.push(req.body)
+  fs.writeFileSync(itemsPath, JSON.stringify(items, null, 2), 'utf-8')
+  res.status(200)
+  res.send('Great Success!')
 })
 
 
