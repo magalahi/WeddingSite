@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/metgot671/WeddingSite/issues"
   },
-  "homepage": "https://github.com/metgot671/WeddingSite#readme"
+  "homepage": "https://github.com/metgot671/WeddingSite#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
